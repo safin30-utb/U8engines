@@ -17,22 +17,34 @@ I'm a passionate **developer** from **Bangladesh** 🌍
 
 ---
 
-# 📊 Step 1. Add the JitPack repository to your build file
-#  Add it in your root settings.gradle at the end of repositories:
+# 🚀 U8engines
 
-# dependencyResolutionManagement {
-# 		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-# 		repositories {
-# 			mavenCentral()
-# 			maven { url 'https://jitpack.io' }
-# 		}
-# 	}
+Easily integrate **U8engines** into your Android project with just two simple steps.  
 
-Step 2. Add the dependency
- dependencies {
-        implementation 'com.github.safin30-utb:U8engines:1.1.0'
- 	}
 ---
+
+## 📦 Installation
+
+### 🔹 Step 1: Add JitPack Repository
+In your **`settings.gradle`**, add the JitPack repository:
+
+```gradle
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+🔹 Step 2: Add the Dependency
+
+In your app/build.gradle file, include:
+
+dependencies {
+    implementation 'com.github.safin30-utb:U8engines:1.1.0'
+}
+
 ## ✨ Quote
 *"Code is like humor. When you have to explain it, it’s bad."* – Cory House
 
