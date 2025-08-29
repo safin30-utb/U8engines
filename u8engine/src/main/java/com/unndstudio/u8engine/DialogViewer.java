@@ -2,6 +2,7 @@ package com.unndstudio.u8engine;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -18,9 +19,23 @@ public class DialogViewer extends Dialog {
     private String title;
     private int setImageResource;
     private String setImageFromUrl;
-    private String setButtonText;
+    private String setButtonTwo;
+    private String setButtonOne;
     private int setBackgroundColor;
     private DialogCallback cd;
+    private ButtonCustomizedCallback dc;
+
+    public void setButtonOne(String setButtonOne) {
+        this.setButtonOne = setButtonOne;
+    }
+
+    public String getButtonOne() {
+        return setButtonOne;
+    }
+
+    public void setButtonCustomizedListener(ButtonCustomizedCallback bd) {
+        this.dc = bd;
+    }
 
     public void setOnClickListener(DialogCallback cd) {
         this.cd = cd;
@@ -34,6 +49,7 @@ public class DialogViewer extends Dialog {
         this.title = title;
     }
 
+
     public void setImageResource(int setImageResource) {
         this.setImageResource = setImageResource;
     }
@@ -42,8 +58,8 @@ public class DialogViewer extends Dialog {
         this.setImageFromUrl = setImageFromUrl;
     }
 
-    public void setButtonText(String setButtonText) {
-        this.setButtonText = setButtonText;
+    public void setButtonTwo(String setButtonTwo) {
+        this.setButtonTwo = setButtonTwo;
     }
 
     public DialogViewer(@NonNull Context context) {
@@ -66,12 +82,18 @@ public class DialogViewer extends Dialog {
         return setImageFromUrl;
     }
 
-    public String getButtonText() {
-        return setButtonText;
+    public String getButtonTwo() {
+        return setButtonTwo;
     }
 
     public interface DialogCallback{
         void onClick();
+    }
+
+    public interface ButtonCustomizedCallback{
+        void onButtonOne(AppCompatButton button);
+        void onButtonTwo(AppCompatButton button);
+
     }
 
     public void onDialogView(){
@@ -88,7 +110,11 @@ public class DialogViewer extends Dialog {
         LinearLayout addBackground = findViewById(R.id.addBackground);
 
         title.setText(getTitle());
-        button.setText(getButtonText());
+        button.setText(getButtonTwo());
+        progress.setText(getButtonOne());
+
+        dc.onButtonOne(progress);
+        dc.onButtonTwo(button);
 
         addBackground.setBackgroundColor(getContext().getResources().getColor(getBackgroundColor()));
 
@@ -96,18 +122,19 @@ public class DialogViewer extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                cd.onClick();
             }
         });
 
         progress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
-                cd.onClick();
+                try {
+                    cd.onClick();
+                } catch (Exception e) {
+                    Log.d("TAGS",e.toString());
+                }
             }
         });
-
 
         if (setImageFromUrl != null){
             Glide.with(getContext())
@@ -116,7 +143,7 @@ public class DialogViewer extends Dialog {
         }else {
             image.setImageResource(getImageResource());
         }
-
     }
+
 
 }
