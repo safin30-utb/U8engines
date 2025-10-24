@@ -3,7 +3,7 @@
 ## 🚀 About Me
 I'm a passionate **developer** from **Bangladesh** 🌍  
 - 🔭 I’m currently working on **[POSTGRAM]**  
-- 🌱 I’m learning **JAVA, Node.js, and AI**  
+- 🌱 I’m learning **JAVA, C++, Python, and AI**  
 - 💬 Ask me about **PHP, MySQL, and Android Development**  
 - ⚡ Fun fact: *I never give up when I start something!*  
 
