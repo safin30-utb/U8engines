@@ -42,7 +42,7 @@ dependencyResolutionManagement {
 In your app/build.gradle file, include:
 
 dependencies {
-    implementation 'com.github.safin30-utb:U8engines:1.1.0'
+    implementation 'com.github.safin30-utb:U8engines:1.3.1'
 }
 
 ## ✨ Quote
