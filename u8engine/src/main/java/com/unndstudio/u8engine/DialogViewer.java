@@ -2,17 +2,23 @@ package com.unndstudio.u8engine;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.bumptech.glide.Glide;
+
+import java.util.Random;
 
 public class DialogViewer extends Dialog {
 
@@ -24,9 +30,29 @@ public class DialogViewer extends Dialog {
     private int setBackgroundColor;
     private DialogCallback cd;
     private ButtonCustomizedCallback dc;
+    private Callback.onSecondButtonListener S_btn;
+    private boolean buttonOneAnimation;
+    private boolean buttonTwoAnimation;
+    private int currentPro;
 
     public void setButtonOne(String setButtonOne) {
         this.setButtonOne = setButtonOne;
+    }
+
+    public boolean isButtonOneAnimation() {
+        return buttonOneAnimation;
+    }
+
+    public boolean isButtonTwoAnimation() {
+        return buttonTwoAnimation;
+    }
+
+    public void setButtonOneAnimation(boolean buttonOneAnimation) {
+        this.buttonOneAnimation = buttonOneAnimation;
+    }
+
+    public void setButtonTwoAnimation(boolean buttonTwoAnimation) {
+        this.buttonTwoAnimation = buttonTwoAnimation;
     }
 
     public String getButtonOne() {
@@ -37,7 +63,7 @@ public class DialogViewer extends Dialog {
         this.dc = bd;
     }
 
-    public void setOnClickListener(DialogCallback cd) {
+    public void setOnFastButtonListener(DialogCallback cd) {
         this.cd = cd;
     }
 
@@ -49,6 +75,9 @@ public class DialogViewer extends Dialog {
         this.title = title;
     }
 
+    public void setOnSecondButtonListener(Callback.onSecondButtonListener sbt){
+        this.S_btn = sbt;
+    }
 
     public void setImageResource(int setImageResource) {
         this.setImageResource = setImageResource;
@@ -103,11 +132,45 @@ public class DialogViewer extends Dialog {
         setCancelable(false);
         show();
 
+        View showAnimated = findViewById(R.id.root_ID);
+        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.bounce);
+        showAnimated.startAnimation(animation);
+
         ImageView image = findViewById(R.id.image);
         TextView title = findViewById(R.id.title);
         AppCompatButton button = findViewById(R.id.cancel);
         AppCompatButton progress = findViewById(R.id.progress);
         LinearLayout addBackground = findViewById(R.id.addBackground);
+        ProgressBar intprogress = findViewById(R.id.intprogress);
+
+        HorizontalProgress progress1 = new HorizontalProgress(getContext());
+        progress1.setIntprogress(intprogress);
+        progress1.onCreate();
+
+
+
+//        final Handler handler = new Handler();
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                Random ran = new Random();
+//                int ra = ran.nextInt(100 - 4) + 4;
+//
+//                currentPro += ra;
+//                intprogress.setProgress(currentPro);
+//                intprogress.setMax(100);
+//
+//                if (intprogress.getProgress() == 100){
+//                    intprogress.setVisibility(View.GONE);
+//                }
+//
+//
+//                handler.postDelayed(this,1000);
+//            }
+//        });
+
+
+
 
         title.setText(getTitle());
         button.setText(getButtonTwo());
@@ -121,13 +184,25 @@ public class DialogViewer extends Dialog {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                if (buttonTwoAnimation){
+                    setAnimationVIew(showAnimated);
+                }
+                try {
+                    S_btn.onClick();
+                } catch (RuntimeException e) {
+                    Log.d("TAGS",e.toString());
+                }
+
             }
         });
 
         progress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (buttonOneAnimation){
+                    setAnimationVIew(showAnimated);
+                }
+
                 try {
                     cd.onClick();
                 } catch (Exception e) {
@@ -144,6 +219,16 @@ public class DialogViewer extends Dialog {
             image.setImageResource(getImageResource());
         }
     }
+
+    private void setAnimationVIew(View showAnimated){
+        Animation anim = AnimationUtils.loadAnimation(getContext(),R.anim.shake);
+        showAnimated.startAnimation(anim);
+
+    }
+
+
+
+
 
 
 }
