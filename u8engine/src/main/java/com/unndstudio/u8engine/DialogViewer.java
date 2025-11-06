@@ -2,7 +2,6 @@ package com.unndstudio.u8engine;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -10,15 +9,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.bumptech.glide.Glide;
-
-import java.util.Random;
 
 public class DialogViewer extends Dialog {
 
@@ -30,10 +26,9 @@ public class DialogViewer extends Dialog {
     private int setBackgroundColor;
     private DialogCallback cd;
     private ButtonCustomizedCallback dc;
-    private Callback.onSecondButtonListener S_btn;
+    private onSecondButtonListener S_btn;
     private boolean buttonOneAnimation;
     private boolean buttonTwoAnimation;
-    private int currentPro;
 
     public void setButtonOne(String setButtonOne) {
         this.setButtonOne = setButtonOne;
@@ -75,7 +70,7 @@ public class DialogViewer extends Dialog {
         this.title = title;
     }
 
-    public void setOnSecondButtonListener(Callback.onSecondButtonListener sbt){
+    public void setOnSecondButtonListener(onSecondButtonListener sbt){
         this.S_btn = sbt;
     }
 
@@ -119,6 +114,10 @@ public class DialogViewer extends Dialog {
         void onClick();
     }
 
+    public interface onSecondButtonListener{
+        void onClick();
+    }
+
     public interface ButtonCustomizedCallback{
         void onButtonOne(AppCompatButton button);
         void onButtonTwo(AppCompatButton button);
@@ -141,36 +140,6 @@ public class DialogViewer extends Dialog {
         AppCompatButton button = findViewById(R.id.cancel);
         AppCompatButton progress = findViewById(R.id.progress);
         LinearLayout addBackground = findViewById(R.id.addBackground);
-        ProgressBar intprogress = findViewById(R.id.intprogress);
-
-        HorizontalProgress progress1 = new HorizontalProgress(getContext());
-        progress1.setIntprogress(intprogress);
-        progress1.onCreate();
-
-
-
-//        final Handler handler = new Handler();
-//        handler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                Random ran = new Random();
-//                int ra = ran.nextInt(100 - 4) + 4;
-//
-//                currentPro += ra;
-//                intprogress.setProgress(currentPro);
-//                intprogress.setMax(100);
-//
-//                if (intprogress.getProgress() == 100){
-//                    intprogress.setVisibility(View.GONE);
-//                }
-//
-//
-//                handler.postDelayed(this,1000);
-//            }
-//        });
-
-
-
 
         title.setText(getTitle());
         button.setText(getButtonTwo());
@@ -223,7 +192,6 @@ public class DialogViewer extends Dialog {
     private void setAnimationVIew(View showAnimated){
         Animation anim = AnimationUtils.loadAnimation(getContext(),R.anim.shake);
         showAnimated.startAnimation(anim);
-
     }
 
 
